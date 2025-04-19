@@ -1,0 +1,100 @@
+body {
+  margin: 0;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  background-color: #fff0f5;
+  color: #d63384;
+}
+
+a {
+  color: #d63384;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+a:hover {
+  color: #ff69b4;
+  transform: scale(1.05);
+}
+
+@keyframes floatLove {
+  0% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(-10px); opacity: 0.7; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes floatBear {
+  0% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(10px); opacity: 0.7; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.vinyl {
+  transition: transform 3s linear;
+}
+
+.vinyl.playing {
+  animation: rotate 5s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes jelly {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1, 0.9);
+  }
+  50% {
+    transform: scale(0.9, 1.1);
+  }
+  75% {
+    transform: scale(1.05, 0.95);
+  }
+}
+.jelly {
+  animation: jelly 0.6s ease;
+}
+
+
+button, a {
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+button:hover, a:hover {
+  transform: scale(1.05);
+  background-color: #ff85c1;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(1.2);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
