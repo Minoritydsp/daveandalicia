@@ -1,8 +1,23 @@
-// components/MusicContext.tsx
 "use client";
 import { createContext, useContext, useState, useRef, useEffect, ReactNode } from "react";
 
-const songs = [
+// Define the types for the song and context value
+interface Song {
+  title: string;
+  artist: string;
+  file: string;
+}
+
+interface MusicContextType {
+  isPlaying: boolean;
+  currentSongIndex: number;
+  togglePlay: () => void;
+  nextSong: () => void;
+  prevSong: () => void;
+  songs: Song[];
+}
+
+const songs: Song[] = [
   { title: "Love, Wave to Earth", artist: "Wave to Earth", file: "/audio/love.mp3" },
   { title: "The Way You Look at Me", artist: "Nyoman Paul, Andi Rianto", file: "/audio/thewayyoulookatme.mp3" },
   { title: "Untukmu Aku Bertahan", artist: "Afgan", file: "/audio/untukmuakubertahan.mp3" },
@@ -10,9 +25,16 @@ const songs = [
   { title: "Star", artist: "Colde", file: "/audio/star.mp3" },
 ];
 
-const MusicContext = createContext<any>(null);
+// Create context with the correct type
+const MusicContext = createContext<MusicContextType | null>(null);
 
-export const useMusic = () => useContext(MusicContext);
+export const useMusic = () => {
+  const context = useContext(MusicContext);
+  if (!context) {
+    throw new Error("useMusic must be used within a MusicProvider");
+  }
+  return context;
+};
 
 export default function MusicProvider({ children }: { children: ReactNode }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -23,8 +45,9 @@ export default function MusicProvider({ children }: { children: ReactNode }) {
     if (audioRef.current) {
       audioRef.current.load();
       if (isPlaying) audioRef.current.play();
+      else audioRef.current.pause(); // Pause if isPlaying is false
     }
-  }, [currentSongIndex]);
+  }, [currentSongIndex, isPlaying]);  // Add isPlaying here  
 
   const togglePlay = () => {
     if (isPlaying) {

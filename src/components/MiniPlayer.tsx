@@ -77,7 +77,7 @@ export default function MiniPlayer() {
       ) : (
         <div
           ref={playerRef}
-          onMouseDown={(e) => {
+          onMouseDown={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
             const onMove = (eMove: MouseEvent) => handleDrag(eMove);
             const onUp = () => {
               document.removeEventListener("mousemove", onMove);
