@@ -19,7 +19,7 @@ const galleryData: GalleryItem[] = [
   {
     src: "/galeri/2.jpg",
     title: "Gambar Pertama Kita",
-    description: "Baru kali ini ada seseorang yang tiba-tiba ngegambar kita berdua, kamu nibanin aku di gambar itu! Aku langsung ngerasa istimewa 🥰",
+    description: "Baru kali ini ada seseorang yang tiba-tiba gambarin aku dan kagetnya itu kita berdua, kamu nibanin aku di gambar itu! Aku langsung ngerasa istimewa 🥰",
   },
   {
     src: "/galeri/3.jpg",
