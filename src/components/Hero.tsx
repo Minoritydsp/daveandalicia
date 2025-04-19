@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Hero() {
@@ -38,14 +39,14 @@ export default function Hero() {
           🧸
         </span>
 
-        {/* Foto Bulat */}
-        <img
+        {/* Foto Bulat menggunakan Image Next.js */}
+        <Image
           src="/galeri/foto-alicia.jpg"
           alt="Putri Alicia"
           className="jelly"
+          width={180} // Ukuran gambar 180px
+          height={180} // Ukuran gambar 180px
           style={{
-            width: "180px",
-            height: "180px",
             borderRadius: "50%",
             border: "5px solid #ffb6c1",
             objectFit: "cover",

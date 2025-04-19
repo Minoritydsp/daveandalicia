@@ -1,6 +1,7 @@
 "use client";
 import { useMusic } from "./MusicContext";
 import { FaPlay, FaPause, FaBackward, FaForward } from "react-icons/fa";
+import Image from "next/image"; // Import komponen Image dari Next.js
 
 export default function MusicPlayer() {
   const { isPlaying, currentSongIndex, togglePlay, nextSong, prevSong, songs } = useMusic();
@@ -11,12 +12,13 @@ export default function MusicPlayer() {
       <h3 style={{ color: "#555", fontSize: "18px" }}>{songs[currentSongIndex].artist}</h3>
 
       <div style={{ marginTop: "1rem" }}>
-        <img
+        {/* Mengganti <img> menjadi <Image> dari Next.js */}
+        <Image
           src="/galeri/vinyl.png"
           alt="Vinyl"
+          width={150} // Ukuran gambar 150px
+          height={150} // Ukuran gambar 150px
           style={{
-            width: "150px",
-            height: "150px",
             borderRadius: "50%",
             animation: isPlaying ? "spin 4s linear infinite" : "none",
             objectFit: "cover", // Menghindari distorsi gambar

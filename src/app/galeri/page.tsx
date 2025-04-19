@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
+import Image from "next/image";
 
-// Define types for gallery item
 interface GalleryItem {
   src: string;
   title: string;
@@ -99,7 +99,6 @@ export default function GaleriPage() {
   const [currentImage, setCurrentImage] = useState<GalleryItem | null>(null);
   const router = useRouter();
 
-  // Handle loading animation steps
   useEffect(() => {
     const steps = [1000, 1000, 1000, 1300];
     let currentStep = 0;
@@ -149,11 +148,12 @@ export default function GaleriPage() {
           overflow: "hidden",
         }}
       >
-        <img
+        <Image
           src={images[loadingStep]}
           alt="Loading"
+          width={parseInt(sizes[loadingStep])}
+          height={parseInt(sizes[loadingStep])}
           style={{
-            width: sizes[loadingStep],
             transform: `${scale} rotate(${rotations[loadingStep]})`,
             transition: "all 0.6s ease",
             filter: "drop-shadow(0 0 0 white) drop-shadow(0 0 8px white)",
@@ -180,30 +180,32 @@ export default function GaleriPage() {
           minHeight: "100vh",
         }}
       >
-        {/* Tombol Kembali */}
         <button
           onClick={() => router.push("/")}
           style={{
             backgroundColor: "#ff69b4",
             color: "white",
-            padding: "0.5rem 1rem",
+            padding: "0.75rem 1.5rem",
             fontFamily: "'Press Start 2P', cursive",
-            fontSize: "0.5rem",
+            fontSize: "0.7rem",
             border: "2px solid #000",
             boxShadow: "3px 3px 0 #000",
             cursor: "pointer",
-            marginBottom: "1.5rem",
+            marginBottom: "2rem",
+            transition: "transform 0.3s ease-in-out",
           }}
+          onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+          onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
         >
           ⬅ Kembali ke Halaman Utama
         </button>
 
-        {/* Gallery Grid */}
+        {/* Grid Galeri */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            gap: "1.5rem",
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+            gap: "2rem",
           }}
         >
           {galleryData.map((item, index) => (
@@ -213,12 +215,13 @@ export default function GaleriPage() {
               style={{
                 backgroundColor: "#fff0f5",
                 border: "4px solid #ff69b4",
-                boxShadow: "4px 4px 0 #000",
-                borderRadius: "4px",
+                boxShadow: "4px 4px 12px rgba(0,0,0,0.2)",
+                borderRadius: "10px",
                 cursor: "pointer",
-                padding: "0.5rem",
+                padding: "1rem",
                 textAlign: "center",
-                transition: "transform 0.2s ease",
+                transition: "transform 0.3s ease-in-out",
+                overflow: "hidden",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "scale(1.05)";
@@ -227,22 +230,25 @@ export default function GaleriPage() {
                 e.currentTarget.style.transform = "scale(1)";
               }}
             >
-              <img
-                src={item.src}
-                alt={item.title}
-                style={{
-                  width: "100%",
-                  aspectRatio: "1 / 1",
-                  objectFit: "cover",
-                  border: "2px dashed #ff69b4",
-                  imageRendering: "pixelated",
-                }}
-              />
+              <div style={{ width: "100%", aspectRatio: "1", position: "relative" }}>
+                <Image
+                  src={item.src}
+                  alt={item.title}
+                  fill
+                  style={{
+                    objectFit: "cover",
+                    border: "2px dashed #ff69b4",
+                    imageRendering: "pixelated",
+                    borderRadius: "8px",
+                  }}
+                />
+              </div>
               <h3
                 style={{
-                  fontSize: "0.6rem",
+                  fontSize: "0.8rem",
                   marginTop: "0.5rem",
                   color: "#d81b60",
+                  fontWeight: "bold",
                 }}
               >
                 {item.title}
@@ -251,7 +257,6 @@ export default function GaleriPage() {
           ))}
         </div>
 
-        {/* Lightbox Modal */}
         {lightboxOpen && currentImage && (
           <div
             onClick={closeLightbox}
@@ -261,70 +266,71 @@ export default function GaleriPage() {
               left: 0,
               width: "100%",
               height: "100%",
-              backgroundColor: "rgba(0,0,0,0.8)",
+              backgroundColor: "rgba(0, 0, 0, 0.8)",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              zIndex: 9999,
-              fontFamily: "'Press Start 2P', cursive",
+              zIndex: 100,
+              padding: "1rem",
+              opacity: lightboxOpen ? 1 : 0,
+              transition: "opacity 0.3s ease-in-out",
             }}
           >
             <div
+              onClick={(e) => e.stopPropagation()}
               style={{
-                maxWidth: "80%",
+                position: "relative",
+                width: "70%",
                 backgroundColor: "#fff0f5",
-                padding: "1rem",
                 border: "4px solid #ff69b4",
-                boxShadow: "6px 6px 0 #000",
-                borderRadius: "4px",
-                textAlign: "center",
+                padding: "2rem",
+                borderRadius: "12px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.2)",
+                animation: "fadeIn 0.5s ease-out",
+                maxWidth: "90%",
               }}
             >
-              <img
+              <Image
                 src={currentImage.src}
                 alt={currentImage.title}
+                width={500}
+                height={350}
                 style={{
-                  width: "50vw",
-                  height: "auto",
-                  maxHeight: "60vh",
                   objectFit: "contain",
-                  imageRendering: "pixelated",
-                  border: "2px dashed #d81b60",
+                  borderRadius: "8px",
+                  transition: "transform 0.5s ease-in-out",
                 }}
               />
-              <h2
+              <h3
                 style={{
-                  fontSize: "1rem",
-                  color: "#d81b60",
-                  margin: "1rem 0",
+                  marginTop: "1rem",
+                  fontSize: "1.2rem",
+                  color: "#880e4f",
+                  fontWeight: "bold",
+                  textAlign: "center",
                 }}
               >
                 {currentImage.title}
-              </h2>
+              </h3>
               <p
                 style={{
-                  fontSize: "0.8rem",
+                  marginTop: "0.5rem",
+                  fontSize: "0.9rem",
                   color: "#880e4f",
-                  marginBottom: "1rem",
+                  backgroundColor: "#ffe4ec",
+                  padding: "1rem",
+                  borderRadius: "8px",
+                  textAlign: "center",
+                  maxWidth: "80%",
+                  lineHeight: "1.4",
                 }}
               >
                 {currentImage.description}
               </p>
-              <button
-                onClick={closeLightbox}
-                style={{
-                  marginTop: "1rem",
-                  backgroundColor: "#ff69b4",
-                  border: "none",
-                  padding: "0.5rem 1rem",
-                  color: "#fff",
-                  fontSize: "0.6rem",
-                  cursor: "pointer",
-                  boxShadow: "2px 2px 0 #000",
-                }}
-              >
-                Tutup
-              </button>
             </div>
           </div>
         )}
