@@ -20,6 +20,7 @@ export default function MiniPlayer() {
     prevSong,
     songs,
   } = useMusic();
+
   const playerRef = useRef<HTMLDivElement>(null);
   const [minimized, setMinimized] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
@@ -47,6 +48,7 @@ export default function MiniPlayer() {
     });
   };
 
+  // Tidak render jika belum dimulai dan tidak sedang bermain
   if (!hasStarted && !isPlaying) return null;
 
   return (
@@ -77,7 +79,7 @@ export default function MiniPlayer() {
       ) : (
         <div
           ref={playerRef}
-          onMouseDown={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+          onMouseDown={() => {
             const onMove = (eMove: MouseEvent) => handleDrag(eMove);
             const onUp = () => {
               document.removeEventListener("mousemove", onMove);
@@ -116,6 +118,7 @@ export default function MiniPlayer() {
               alignItems: "center",
               borderTopLeftRadius: "10px",
               borderTopRightRadius: "10px",
+              gap: "0.5rem",
             }}
           >
             <button
@@ -125,7 +128,6 @@ export default function MiniPlayer() {
                 border: "none",
                 color: "white",
                 cursor: "pointer",
-                marginRight: "5px",
               }}
             >
               <FaWindowMinimize />
